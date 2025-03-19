@@ -16,18 +16,14 @@ logger = logging.getLogger(__name__)
 
 @Model.register(f"{MODEL_NAME}-lerc")
 class LERC(Model):
-    def __init__(
-        self, image: str = DEFAULT_IMAGE, device: int = 0, batch_size: int = 8
-    ) -> None:
+    def __init__(self, image: str = DEFAULT_IMAGE, device: int = 0, batch_size: int = 8) -> None:
         self.image = image
         self.device = device
         self.batch_size = batch_size
         self.model = "lerc-2020-11-18.tar.gz"
 
     @overrides
-    def predict(
-        self, context: str, question: str, reference: str, candidate: str, **kwargs
-    ) -> float:
+    def predict(self, context: str, question: str, reference: str, candidate: str, *args, **kwargs) -> float:
         return self.predict_batch(
             [
                 {
@@ -41,10 +37,8 @@ class LERC(Model):
         )[0]
 
     @overrides
-    def predict_batch(self, inputs: List[Dict[str, Any]], **kwargs) -> List[float]:
-        logger.info(
-            f"Predicting scores for {len(inputs)} inputs, image {self.image}, and model {self.model}"
-        )
+    def predict_batch(self, inputs: List[Dict[str, Any]], *args, **kwargs) -> List[float]:
+        logger.info(f"Predicting scores for {len(inputs)} inputs, image {self.image}, and model {self.model}")
 
         with TemporaryDirectory() as temp:
             host_input_dir = f"{temp}/input"
@@ -85,9 +79,7 @@ class LERC(Model):
                 f"  --output-file {container_output_file}"
             )
             if cuda:
-                predict_command = (
-                    f"CUDA_VISIBLE_DEVICES={self.device} " + predict_command
-                )
+                predict_command = f"CUDA_VISIBLE_DEVICES={self.device} " + predict_command
             commands.append(predict_command)
 
             command = " && ".join(commands)
@@ -111,22 +103,13 @@ class MOCHAEvaluationMetric(Model):
         self.image = image
 
     @overrides
-    def predict(
-        self,
-        dataset: str,
-        source: str,
-        score: float,
-        prediction: float,
-        **kwargs,
-    ) -> Dict[str, float]:
+    def predict(self, dataset: str, source: str, score: float, prediction: float, *args, **kwargs) -> Dict[str, float]:
         # You can't compute this metric with just one example. We define
         # this method so the "predict" command can identify the required arguments.
         raise NotImplementedError
 
     @overrides
-    def predict_batch(
-        self, inputs: List[Dict[str, Union[str, float]]], **kwargs
-    ) -> Dict[str, float]:
+    def predict_batch(self, inputs: list[dict[str, any]], *args, **kwargs) -> Dict[str, float]:
         logger.info(f"Evaluating {len(inputs)} inputs")
         with TemporaryDirectory() as temp:
             # The output file is hard-coded to be relative to the prediction file,
@@ -171,9 +154,7 @@ class MOCHAEvaluationMetric(Model):
                 f"  --annotations {container_annotations_file}"
                 f"  --predictions {container_predictions_file}"
             )
-            run_command(
-                self.image, command, volume_map=volume_map, network_disabled=True
-            )
+            run_command(self.image, command, volume_map=volume_map, network_disabled=True)
 
             metrics = json.load(open(host_output_file, "r"))
             return metrics

@@ -13,7 +13,7 @@ class Model(Registrable):
         """
         raise NotImplementedError
 
-    def predict_batch(self, inputs: List[Dict[str, Any]], *args, **kwargs):
+    def predict_batch(self, inputs: list[dict[str, any]], *args, **kwargs):
         """
         Runs inference for all of the instances in `inputs`. Each item in `inputs`
         should have a key which corresponds to a parameter of the `predict` method.
@@ -154,13 +154,9 @@ class ParallelModel(Model):
         self.model_cls = model_cls
 
         if not model_kwargs_list and not num_models:
-            raise ValueError(
-                f"Either `model_kwargs_list` or `num_models` must not be `None`"
-            )
+            raise ValueError(f"Either `model_kwargs_list` or `num_models` must not be `None`")
         if model_kwargs_list and num_models:
-            raise ValueError(
-                f"Exactly one of `model_kwargs_list` and `num_models` must not be `None`"
-            )
+            raise ValueError(f"Exactly one of `model_kwargs_list` and `num_models` must not be `None`")
         if num_models and num_models <= 0:
             raise ValueError(f"`num_models` must be positive")
 
@@ -177,9 +173,7 @@ class ParallelModel(Model):
             batches.append(inputs[i : i + batch_size])
         return batches
 
-    def _process(
-        self, model_kwargs: Dict[str, Any], inputs: List[Dict[str, Any]], **kwargs
-    ) -> Any:
+    def _process(self, model_kwargs: Dict[str, Any], inputs: List[Dict[str, Any]], **kwargs) -> Any:
         model = self.model_cls(**model_kwargs)
         return model.predict_batch(inputs, **kwargs)
 
@@ -200,9 +194,7 @@ class ParallelModel(Model):
 
 class QuestionAnsweringModel(Model):
     def predict(self, context: str, question: str, *args, **kwargs) -> str:
-        return self.predict_batch(
-            [{"context": context, "question": question}], **kwargs
-        )[0]
+        return self.predict_batch([{"context": context, "question": question}], **kwargs)[0]
 
     def predict_batch(self, inputs: List[Dict[str, str]], *args, **kwargs) -> List[str]:
         raise NotImplementedError
@@ -220,9 +212,7 @@ class RecipeGenerationModel(Model):
     def predict(self, name: str, ingredients: List[str], *args, **kwargs) -> str:
         return self.predict_batch([{"name": name, "ingredients": ingredients}])[0]
 
-    def predict_batch(
-        self, inputs: List[Dict[str, Union[str, List[str]]]], *args, **kwargs
-    ) -> List[str]:
+    def predict_batch(self, inputs: List[Dict[str, Union[str, List[str]]]], *args, **kwargs) -> List[str]:
         raise NotImplementedError
 
 
@@ -230,9 +220,7 @@ class SingleDocumentSummarizationModel(Model):
     def predict(self, document: DocumentType, *args, **kwargs) -> SummaryType:
         return self.predict_batch([{"document": document}])[0]
 
-    def predict_batch(
-        self, inputs: List[Dict[str, DocumentType]], *args, **kwargs
-    ) -> List[SummaryType]:
+    def predict_batch(self, inputs: List[Dict[str, DocumentType]], *args, **kwargs) -> List[SummaryType]:
         raise NotImplementedError
 
 
@@ -240,7 +228,5 @@ class TruecasingModel(Model):
     def predict(self, text: str, *args, **kwargs) -> str:
         return self.predict_batch([{"text": text}])[0]
 
-    def predict_batch(
-        self, inputs: List[Dict[str, DocumentType]], *args, **kwargs
-    ) -> List[str]:
+    def predict_batch(self, inputs: List[Dict[str, DocumentType]], *args, **kwargs) -> List[str]:
         raise NotImplementedError
