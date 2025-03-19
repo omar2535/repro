@@ -4,7 +4,7 @@ from repro.common import Registrable
 
 
 class Subcommand(Registrable):
-    def add_subparser(self, parser: argparse._SubParsersAction) -> None:
+    def add_subparser(self, model: str, parser: argparse._SubParsersAction) -> None:
         raise NotImplementedError
 
     def run(self, args):

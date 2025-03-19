@@ -22,9 +22,7 @@ def predict_with_model(
     if isinstance(kwargs, str):
         kwargs = json.loads(kwargs)
     if not isinstance(kwargs, dict):
-        raise ValueError(
-            f"`kwargs` is expected to be a dictionary or json-serialized dictionary: {kwargs}"
-        )
+        raise ValueError(f"`kwargs` is expected to be a dictionary or json-serialized dictionary: {kwargs}")
 
     # Find the required arguments for the model's `predict` function
     parameters = inspect.signature(model.predict).parameters
@@ -47,19 +45,14 @@ def predict_with_model(
 @RootSubcommand.register("predict")
 class PredictSubcommand(RootSubcommand):
     @overrides
-    def add_subparser(self, parser: argparse._SubParsersAction):
+    def add_subparser(self, model: str, parser: argparse._SubParsersAction):
         description = "Predict using a model"
-        self.parser = parser.add_parser(
-            "predict", description=description, help=description
-        )
-        self.parser.add_argument(
-            "--model-name", required=True, help="The name of the model to predict with"
-        )
+        self.parser = parser.add_parser("predict", description=description, help=description)
+        self.parser.add_argument("--model-name", required=True, help="The name of the model to predict with")
         self.parser.add_argument(
             "--model-kwargs",
             required=False,
-            help="A serialized json object which will be deserialized and passed as "
-            "**kwargs to the model constructor",
+            help="A serialized json object which will be deserialized and passed as **kwargs to the model constructor",
         )
         self.parser.add_argument(
             "--predict-kwargs",
@@ -128,31 +121,20 @@ class PredictSubcommand(RootSubcommand):
     def _check_args(args):
         # --dataset-name and --input-files are exclusive-or
         if (args.dataset_name is not None) is (args.input_files is not None):
-            raise ValueError(
-                "Exactly one of --dataset-name or --input-files must be set"
-            )
+            raise ValueError("Exactly one of --dataset-name or --input-files must be set")
 
         # Both --dataset-name and --split must either be set or not set
         if (args.dataset_name is not None) is not (args.split is not None):
-            raise ValueError(
-                "Parameters --dataset-name and --split must either both be set "
-                "or neither be set"
-            )
+            raise ValueError("Parameters --dataset-name and --split must either both be set or neither be set")
 
         # Both --input-files and --dataset-reader must either be set or not set
         if (args.input_files is not None) is not (args.dataset_reader is not None):
-            raise ValueError(
-                "Parameters --input-files and --dataset-reader must either both be set "
-                "or neither be set"
-            )
+            raise ValueError("Parameters --input-files and --dataset-reader must either both be set or neither be set")
 
         # If --dataset-reader-kwargs is passed, --dataset-reader must also be used
         if args.dataset_reader_kwargs is not None:
             if args.dataset_reader is None:
-                raise ValueError(
-                    "Parameter --dataset-reader must be used if --dataset-reader-kwargs "
-                    "is also used"
-                )
+                raise ValueError("Parameter --dataset-reader must be used if --dataset-reader-kwargs is also used")
 
     @overrides
     def run(self, args):
@@ -162,21 +144,13 @@ class PredictSubcommand(RootSubcommand):
         model = load_model(args.model_name, args.model_kwargs)
 
         if args.dataset_name is not None:
-            dataset_reader = HuggingfaceDatasetsDatasetReader(
-                args.dataset_name, args.split
-            )
+            dataset_reader = HuggingfaceDatasetsDatasetReader(args.dataset_name, args.split)
             instances = dataset_reader.read()
         else:
-            dataset_reader = load_dataset_reader(
-                args.dataset_reader, args.dataset_reader_kwargs
-            )
+            dataset_reader = load_dataset_reader(args.dataset_reader, args.dataset_reader_kwargs)
             instances = dataset_reader.read(*args.input_files)
 
         predictions = predict_with_model(model, instances, args.predict_kwargs)
 
-        output_writer = load_output_writer(
-            args.output_writer, args.output_writer_kwargs
-        )
-        output_writer.write(
-            instances, predictions, args.output, model_name=args.model_name
-        )
+        output_writer = load_output_writer(args.output_writer, args.output_writer_kwargs)
+        output_writer.write(instances, predictions, args.output, model_name=args.model_name)

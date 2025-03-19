@@ -33,9 +33,7 @@ def push_python_path(path: PathType) -> ContextManagerFunctionReturnType[None]:
 
 
 # Borrowed from AllenNLP
-def import_module_and_submodules(
-    package_name: str, exclude: Optional[Set[str]] = None
-) -> None:
+def import_module_and_submodules(package_name: str, exclude: Optional[Set[str]] = None) -> None:
     """
     Import all submodules under the given package.
     Primarily useful so that people using AllenNLP as a library
@@ -78,7 +76,7 @@ def build_argument_parser():
 
     # Add all of the root-level commands using the registry
     for name, (cls_, _) in sorted(Registrable._registry[RootSubcommand].items()):
-        cls_().add_subparser(subparsers)
+        cls_().add_subparser(name, subparsers)
 
     return parser
 

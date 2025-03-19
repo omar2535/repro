@@ -8,11 +8,9 @@ from repro.commands.subcommand import RootSubcommand, SetupSubcommand
 @RootSubcommand.register("setup")
 class SetupModelSubcommand(RootSubcommand):
     @overrides
-    def add_subparser(self, parser: argparse._SubParsersAction):
+    def add_subparser(self, model: str, parser: argparse._SubParsersAction):
         description = "Setup a model"
-        self.parser = parser.add_parser(
-            "setup", description=description, help=description
-        )
+        self.parser = parser.add_parser("setup", description=description, help=description)
         subparsers = self.parser.add_subparsers()
 
         # Add all of the setup commands using the registry

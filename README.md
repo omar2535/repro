@@ -1,8 +1,9 @@
-# Repro
+# Repro2 - an up to date version of the original repro
+
 ![Master](https://github.com/danieldeutsch/repro/workflows/Master/badge.svg?branch=master&event=push)
 ![Documentation](https://readthedocs.org/projects/repro/badge/?version=latest)
 
-Repro is a library for reproducing results from research papers.
+Repro is a library for reproducing results from research papers, originally introduced by Daniel Deutsch. This version 2 of the library is an up to date version of the original repo.
 For now, it is focused on making predictions with pre-trained models as easy as possible.
 
 Currently, running pre-trained models can be difficult to do.
@@ -15,29 +16,26 @@ Since the complicated model-specific code is isolated within Docker, the user do
 It should "just work" (at least that is the goal).
 
 ## Installation Instructions
+
 First, you need to have a working Docker installation.
 See [here](https://repro.readthedocs.io/en/latest/tutorials/docker.html) for installation instructions as well as scripts to verify your setup is working.
 
 Then, we recommend creating a conda environment specific to repro before installing the library:
-```shell script
-conda create -n repro python=3.6
-conda activate repro
-```
 
-For users:
-```shell script
-pip install repro
+```sh
+uv sync
 ```
 
 For developers:
-```shell script
-git clone https://github.com/danieldeutsch/repro
+
+```sh
+git clone https://github.com/omar2535/repro
 cd repro
-pip install --editable .
-pip install -r dev-requirements.txt
-```                                       
+uv sync
+```
 
 ## Example Usage
+
 Here is an example of how Repro can be used, highlighting how simple it is to run a complex model pipeline.
 We will demonstrate how to generate summaries of a document with three different models
 
@@ -152,9 +150,11 @@ score = lerc.predict(summary, question, answer, prediction)
 More details on how to use the models implemented in Repro can be found [here](https://repro.readthedocs.io/en/latest/tutorials/using-models.html).
 
 ## Models Implemented in Repro
+
 See [this page](https://repro.readthedocs.io/en/latest/models/index.html) to see the list of papers with models currently supported by Repro.
 Each model's documentation contains information about how to use it as well as whether or not it currently reproduces the results reported in its respective paper or if it hasn't been tested yet.
 If it has been tested, the code to reproduce the results is also included.
 
 ## Contributing a Model
+
 See the tutorial [here](https://repro.readthedocs.io/en/latest/tutorials/adding-a-model.html) for instructions on how to add a new model.

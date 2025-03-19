@@ -45,7 +45,7 @@ class HuggingfaceDatasetsDatasetReader(DatasetReader):
         self.split = split
 
     @overrides
-    def _read(self) -> List[InstanceDict]:
+    def _read(self, *input_files: str) -> List[InstanceDict]:
         # Split the version if it exists, taking the default if not
         parts = self.dataset_name.split("/")
         if len(parts) == 1:

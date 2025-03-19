@@ -11,11 +11,9 @@ from repro.common.logging import prepare_global_logging
 @RootSubcommand.register("pull")
 class PullImageSubcommand(RootSubcommand):
     @overrides
-    def add_subparser(self, parser: argparse._SubParsersAction):
+    def add_subparser(self, model: str, parser: argparse._SubParsersAction):
         description = "Pull a model's default Docker image from Docker Hub"
-        self.parser = parser.add_parser(
-            "pull", description=description, help=description
-        )
+        self.parser = parser.add_parser("pull", description=description, help=description)
 
         # Find all of the modules that have default Docker Hub repos
         self.images = {}
