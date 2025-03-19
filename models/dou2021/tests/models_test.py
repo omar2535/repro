@@ -45,9 +45,7 @@ class TestDou2021Models(unittest.TestCase):
         documents = [inp["document"] for inp in self.examples]
         guidance = [inp["guidance"] for inp in self.examples]
         expected = [inp["oracle_guided_summary"] for inp in self.examples]
-        actual = generate_summaries(
-            self.image, model, device, batch_size, documents, guidance
-        )
+        actual = generate_summaries(self.image, model, device, batch_size, documents, guidance)
         assert expected == actual
 
     @parameterized.expand(get_testing_device_parameters())
@@ -55,10 +53,7 @@ class TestDou2021Models(unittest.TestCase):
         model = OracleSentenceGSumModel(device=device)
 
         # First without pre-sentence-split documents and references
-        inputs = [
-            {"document": example["document"], "reference": example["reference"]}
-            for example in self.examples
-        ]
+        inputs = [{"document": example["document"], "reference": example["reference"]} for example in self.examples]
         expected_summaries = [data["oracle_guided_summary"] for data in self.examples]
         summaries = model.predict_batch(inputs)
         assert summaries == expected_summaries
@@ -71,9 +66,7 @@ class TestDou2021Models(unittest.TestCase):
             }
             for example in self.examples
         ]
-        expected_summaries = [
-            data["oracle_guided_summary_presplit"] for data in self.examples
-        ]
+        expected_summaries = [data["oracle_guided_summary_presplit"] for data in self.examples]
         summaries = model.predict_batch(inputs)
         assert summaries == expected_summaries
 
@@ -83,8 +76,7 @@ class TestDou2021Models(unittest.TestCase):
 
         # First without pre-sentence-split documents and references
         inputs = [
-            {"document": example["document"], "guidance": " ".join(example["guidance"])}
-            for example in self.examples
+            {"document": example["document"], "guidance": " ".join(example["guidance"])} for example in self.examples
         ]
         expected_summaries = [data["oracle_guided_summary"] for data in self.examples]
         summaries = model.predict_batch(inputs)
@@ -98,9 +90,7 @@ class TestDou2021Models(unittest.TestCase):
             }
             for example in self.examples
         ]
-        expected_summaries = [
-            data["oracle_guided_summary_presplit"] for data in self.examples
-        ]
+        expected_summaries = [data["oracle_guided_summary_presplit"] for data in self.examples]
         summaries = model.predict_batch(inputs)
         assert summaries == expected_summaries
 
@@ -115,9 +105,7 @@ class TestDou2021Models(unittest.TestCase):
         assert summaries == expected_summaries
 
         # Pre-sentence-split documents
-        inputs = [
-            {"document": example["document_sentences"]} for example in self.examples
-        ]
+        inputs = [{"document": example["document_sentences"]} for example in self.examples]
         expected_summaries = [data["guided_summary_presplit"] for data in self.examples]
         summaries = model.predict_batch(inputs)
         assert summaries == expected_summaries

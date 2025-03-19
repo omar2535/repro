@@ -6,6 +6,7 @@
 any base class with a named registry for its subclasses and a decorator
 for registering them.
 """
+
 from collections import defaultdict
 from typing import TypeVar, Type, Callable, Dict, List, Optional, Tuple
 import importlib
@@ -41,12 +42,10 @@ class Registrable(object):
     """
 
     _registry: Dict[Type, Dict[str, Tuple[Type, str]]] = defaultdict(dict)
-    default_implementation: str = None
+    default_implementation: str | None = None
 
     @classmethod
-    def register(
-        cls: Type[T], name: str, constructor: str = None, exist_ok: bool = False
-    ):
+    def register(cls: Type[T], name: str, constructor: str | None = None, exist_ok: bool = False):
         """
         Register a class under a particular name.
 
@@ -169,8 +168,7 @@ class Registrable(object):
                 module = importlib.import_module(submodule)
             except ModuleNotFoundError:
                 raise ConfigurationError(
-                    f"tried to interpret {name} as a path to a class "
-                    f"but unable to import module {submodule}"
+                    f"tried to interpret {name} as a path to a class but unable to import module {submodule}"
                 )
 
             try:
@@ -202,8 +200,6 @@ class Registrable(object):
         if default is None:
             return keys
         elif default not in keys:
-            raise ConfigurationError(
-                f"Default implementation {default} is not registered"
-            )
+            raise ConfigurationError(f"Default implementation {default} is not registered")
         else:
             return [default] + [k for k in keys if k != default]

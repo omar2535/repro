@@ -16,9 +16,7 @@ logger = logging.getLogger(__name__)
 
 @Model.register(f"{MODEL_NAME}-oracle-sentence-gsum")
 class OracleSentenceGSumModel(Model):
-    def __init__(
-        self, image: str = DEFAULT_IMAGE, device: int = 0, batch_size: int = 16
-    ) -> None:
+    def __init__(self, image: str = DEFAULT_IMAGE, device: int = 0, batch_size: int = 16) -> None:
         self.model = "bart_sentence"
         self.image = image
         self.device = device
@@ -33,16 +31,12 @@ class OracleSentenceGSumModel(Model):
     ) -> SummaryType:
         if reference is None and guidance is None:
             raise Exception(f"Either `reference` or `guidance` must be provided")
-        return self.predict_batch(
-            [{"document": document, "reference": reference, "guidance": guidance}]
-        )[0]
+        return self.predict_batch([{"document": document, "reference": reference, "guidance": guidance}])[0]
 
     def predict_batch(
-        self, inputs: List[Dict[str, Union[DocumentType, SummaryType]]], **kwargs
+        self, inputs: List[Dict[str, Union[DocumentType, SummaryType]]], *args, **kwargs
     ) -> List[SummaryType]:
-        logger.info(
-            f"Generating summaries for {len(inputs)} inputs and image {self.image}."
-        )
+        logger.info(f"Generating summaries for {len(inputs)} inputs and image {self.image}.")
 
         # Check if all inputs have "guidance" provided. If they do, we will use that
         # instead of computing the guidance
@@ -52,9 +46,7 @@ class OracleSentenceGSumModel(Model):
         compute_guidance = True
         if any(_has_guidance(inp) for inp in inputs):
             if not all(_has_guidance(inp) for inp in inputs):
-                raise Exception(
-                    f"Only some of the inputs have `guidance` inputs. Only all or none is supported"
-                )
+                raise Exception(f"Only some of the inputs have `guidance` inputs. Only all or none is supported")
             logger.info("Using input guidance")
             compute_guidance = False
         else:
@@ -90,17 +82,13 @@ class OracleSentenceGSumModel(Model):
             guidance = [inp["guidance"] for inp in inputs]
 
         # We pass the original, untokenized documents to the generation.
-        summaries = generate_summaries(
-            self.image, self.model, self.device, self.batch_size, documents, guidance
-        )
+        summaries = generate_summaries(self.image, self.model, self.device, self.batch_size, documents, guidance)
         return summaries
 
 
 @Model.register(f"{MODEL_NAME}-sentence-gsum")
 class SentenceGSumModel(SingleDocumentSummarizationModel):
-    def __init__(
-        self, image: str = DEFAULT_IMAGE, device: int = 0, batch_size: int = 16
-    ) -> None:
+    def __init__(self, image: str = DEFAULT_IMAGE, device: int = 0, batch_size: int = 16) -> None:
         self.model = "bart_sentence"
         self.image = image
         self.device = device
@@ -110,9 +98,7 @@ class SentenceGSumModel(SingleDocumentSummarizationModel):
     def predict_batch(
         self, inputs: List[Dict[str, Union[DocumentType, SummaryType]]], *args, **kwargs
     ) -> List[SummaryType]:
-        logger.info(
-            f"Generating summaries for {len(inputs)} inputs and image {self.image}."
-        )
+        logger.info(f"Generating summaries for {len(inputs)} inputs and image {self.image}.")
         documents = [inp["document"] for inp in inputs]
 
         # The sentence supervision is done using the `self.extractive_model`, which
@@ -120,7 +106,5 @@ class SentenceGSumModel(SingleDocumentSummarizationModel):
         logger.info(f"Extracting guidance signal")
         guidance = self.extractive_model.predict_batch(inputs)
 
-        summaries = generate_summaries(
-            self.image, self.model, self.device, self.batch_size, documents, guidance
-        )
+        summaries = generate_summaries(self.image, self.model, self.device, self.batch_size, documents, guidance)
         return summaries

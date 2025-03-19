@@ -33,6 +33,7 @@ class NUBIA(Model):
         inputs: List[Dict[str, Union[TextType, List[TextType]]]],
         six_dim: bool = False,
         aggregator: str = "agg_two",
+        *args,
         **kwargs,
     ) -> Tuple[MetricsType, List[MetricsType]]:
         logger.info(f"Calculating Nubia for {len(inputs)} inputs")

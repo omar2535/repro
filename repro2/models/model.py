@@ -1,6 +1,6 @@
 import math
 from joblib import Parallel, delayed
-from typing import Any, Dict, List, Type, Union
+from typing import Any, Dict, List, Type
 
 from repro2.common import Registrable
 from repro2.data.types import DocumentType, SummaryType
@@ -212,7 +212,7 @@ class RecipeGenerationModel(Model):
     def predict(self, name: str, ingredients: List[str], *args, **kwargs) -> str:
         return self.predict_batch([{"name": name, "ingredients": ingredients}])[0]
 
-    def predict_batch(self, inputs: List[Dict[str, Union[str, List[str]]]], *args, **kwargs) -> List[str]:
+    def predict_batch(self, inputs: List[Dict[str, Any]], *args, **kwargs) -> List[str]:
         raise NotImplementedError
 
 
@@ -220,7 +220,9 @@ class SingleDocumentSummarizationModel(Model):
     def predict(self, document: DocumentType, *args, **kwargs) -> SummaryType:
         return self.predict_batch([{"document": document}])[0]
 
-    def predict_batch(self, inputs: List[Dict[str, DocumentType]], *args, **kwargs) -> List[SummaryType]:
+    def predict_batch(
+        self, inputs: List[Dict[str, DocumentType]], *args, **kwargs
+    ) -> list[SummaryType] | list[list[SummaryType]]:
         raise NotImplementedError
 
 

@@ -41,6 +41,8 @@ class SUPERT(Model):
     def predict_batch(
         self,
         inputs: List[Dict[str, Union[TextType, List[TextType]]]],
+        *args,
+        **kwargs,
     ) -> Tuple[MetricsType, List[MetricsType]]:
         logger.info(f"Calculating SUPERT for {len(inputs)} inputs")
 
@@ -61,9 +63,7 @@ class SUPERT(Model):
 
             # This could be optimized by grouping the candidates by identical sources, but
             # we haven't implemented that currently
-            for i, (sources, candidates) in enumerate(
-                zip(grouped_sources_list, grouped_candidates_list)
-            ):
+            for i, (sources, candidates) in enumerate(zip(grouped_sources_list, grouped_candidates_list)):
                 output_dir = f"{host_input_dir}/{i}"
                 self._write_sources(sources, f"{output_dir}/input_docs")
                 self._write_candidates(candidates, f"{output_dir}/summaries")
@@ -72,9 +72,7 @@ class SUPERT(Model):
             container_output_file = f"{backend.container_dir}/output.json"
 
             commands = ["cd SUPERT"]
-            commands.append(
-                f"python run_batch.py {container_input_dir} {container_output_file}"
-            )
+            commands.append(f"python run_batch.py {container_input_dir} {container_output_file}")
 
             command = " && ".join(commands)
             backend.run_command(

@@ -32,17 +32,14 @@ class QAEval(Model):
         self.answering_batch_size = answering_batch_size
         self.lerc_batch_size = lerc_batch_size
 
-    def predict(
-        self, candidate: TextType, references: List[TextType], **kwargs
-    ) -> MetricsType:
-        return self.predict_batch(
-            [{"candidate": candidate, "references": references}], **kwargs
-        )[0]
+    def predict(self, candidate: TextType, references: List[TextType], *args, **kwargs) -> MetricsType:
+        return self.predict_batch([{"candidate": candidate, "references": references}], **kwargs)[0]
 
     def predict_batch(
         self,
-        inputs: List[Dict[str, Union[str, List[str]]]],
+        inputs: List[Dict[str, Any]],
         return_qa_pairs=False,
+        *args,
         **kwargs,
     ) -> Union[
         Tuple[MetricsType, List[MetricsType]],
@@ -114,15 +111,13 @@ class QAEval(Model):
 
 @Model.register(f"{MODEL_NAME}-question-generation")
 class QAEvalQuestionGenerationModel(QuestionGenerationModel):
-    def __init__(
-        self, image: str = DEFAULT_IMAGE, device: int = 0, batch_size: int = 8
-    ) -> None:
+    def __init__(self, image: str = DEFAULT_IMAGE, device: int = 0, batch_size: int = 8) -> None:
         self.image = image
         self.device = device
         self.batch_size = batch_size
 
     @overrides
-    def predict_batch(self, inputs: List[Dict[str, str]], **kwargs) -> List[str]:
+    def predict_batch(self, inputs: List[Dict[str, str]], *args, **kwargs) -> List[str]:
         logger.info(f"Generating questions for {len(inputs)} inputs")
 
         with DockerContainer(self.image) as backend:
@@ -162,25 +157,19 @@ class QAEvalQuestionGenerationModel(QuestionGenerationModel):
                 network_disabled=True,
             )
 
-            questions = [
-                output["question"] for output in read_jsonl_file(host_output_file)
-            ]
+            questions = [output["question"] for output in read_jsonl_file(host_output_file)]
             return questions
 
 
 @Model.register(f"{MODEL_NAME}-question-answering")
 class QAEvalQuestionAnsweringModel(QuestionAnsweringModel):
-    def __init__(
-        self, image: str = DEFAULT_IMAGE, device: int = 0, batch_size: int = 8
-    ) -> None:
+    def __init__(self, image: str = DEFAULT_IMAGE, device: int = 0, batch_size: int = 8) -> None:
         self.image = image
         self.device = device
         self.batch_size = batch_size
 
     @overrides
-    def predict_batch(
-        self, inputs: List[Dict[str, str]], return_dicts: bool = False, **kwargs
-    ) -> List[str]:
+    def predict_batch(self, inputs: List[Dict[str, str]], return_dicts: bool = False, *args, **kwargs) -> List[str]:
         logger.info(f"Answering for {len(inputs)} inputs")
 
         with DockerContainer(self.image) as backend:
@@ -222,9 +211,7 @@ class QAEvalQuestionAnsweringModel(QuestionAnsweringModel):
             outputs = read_jsonl_file(host_output_file)
             if not return_dicts:
                 outputs = [
-                    output["prediction"]
-                    if output["probability"] > output["null_probability"]
-                    else None
+                    output["prediction"] if output["probability"] > output["null_probability"] else None
                     for output in outputs
                 ]
             return outputs

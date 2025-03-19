@@ -34,6 +34,7 @@ class METEOR(Model):
         self,
         candidate: TextType,
         references: List[TextType],
+        *args,
         **kwargs,
     ) -> MetricsType:
         return self.predict_batch([{"candidate": candidate, "references": references}], **kwargs)[0]

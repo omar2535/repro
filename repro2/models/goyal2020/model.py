@@ -40,16 +40,13 @@ class DAE(Model):
         self.device = device
         self.sleep = sleep
 
-    def predict(
-        self, candidate: TextType, sources: List[TextType], **kwargs
-    ) -> MetricsType:
-        return self.predict_batch(
-            [{"candidate": candidate, "sources": sources}], **kwargs
-        )[0]
+    def predict(self, candidate: TextType, sources: List[TextType], **kwargs) -> MetricsType:
+        return self.predict_batch([{"candidate": candidate, "sources": sources}], **kwargs)[0]
 
     def predict_batch(
         self,
         inputs: List[Dict[str, Union[TextType, List[TextType]]]],
+        *args,
         **kwargs,
     ) -> Tuple[MetricsType, List[MetricsType]]:
         logger.info(f"Calculating DAE for {len(inputs)} inputs with model {self.model}")

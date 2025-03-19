@@ -47,17 +47,14 @@ class CLIPScore(Model):
     def predict_batch(
         self,
         inputs: List[Dict[str, Union[str, List[str]]]],
+        *args,
         **kwargs,
     ) -> Tuple[MetricsType, List[MetricsType]]:
-        logger.info(
-            f"Calculating CLIPScore for {len(inputs)} inputs with image {self.image}"
-        )
+        logger.info(f"Calculating CLIPScore for {len(inputs)} inputs with image {self.image}")
 
         candidates = [inp["candidate"] for inp in inputs]
         image_files = [inp["image_file"] for inp in inputs]
-        references_list = [
-            inp["references"] if "references" in inp else None for inp in inputs
-        ]
+        references_list = [inp["references"] if "references" in inp else None for inp in inputs]
 
         # The references are optional. Make sure either all have references or none do
         has_references = self._verify_all_or_no_references(references_list)
@@ -77,11 +74,7 @@ class CLIPScore(Model):
 
             # Write all of the candidates
             with open(host_candidate_file, "w") as out:
-                out.write(
-                    json.dumps(
-                        {str(i): candidate for i, candidate in enumerate(candidates)}
-                    )
-                )
+                out.write(json.dumps({str(i): candidate for i, candidate in enumerate(candidates)}))
 
             # Copy over all of the images
             os.makedirs(host_image_dir)
@@ -92,14 +85,7 @@ class CLIPScore(Model):
 
             if has_references:
                 with open(host_references_file, "w") as out:
-                    out.write(
-                        json.dumps(
-                            {
-                                str(i): references
-                                for i, references in enumerate(references_list)
-                            }
-                        )
-                    )
+                    out.write(json.dumps({str(i): references for i, references in enumerate(references_list)}))
 
             commands = []
             cuda = self.device != -1

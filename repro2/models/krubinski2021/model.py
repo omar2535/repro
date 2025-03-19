@@ -18,14 +18,13 @@ class MTEQA(Model):
         self.device = device
 
     def predict(self, candidate: str, references: List[str], **kwargs) -> MetricsType:
-        return self.predict_batch(
-            [{"candidate": candidate, "references": references}], **kwargs
-        )[0]
+        return self.predict_batch([{"candidate": candidate, "references": references}], **kwargs)[0]
 
     def predict_batch(
         self,
         inputs: List[Dict[str, Union[str, List[str]]]],
         gen_from_out: bool = False,
+        *args,
         **kwargs,
     ) -> Tuple[MetricsType, List[MetricsType]]:
         """
@@ -55,9 +54,7 @@ class MTEQA(Model):
             indices = []
             with open(host_candidate_file, "w") as out_cand:
                 with open(host_reference_file, "w") as out_ref:
-                    for i, (candidate, references) in enumerate(
-                        zip(candidates, references_list)
-                    ):
+                    for i, (candidate, references) in enumerate(zip(candidates, references_list)):
                         for reference in references:
                             out_cand.write(candidate + "\n")
                             out_ref.write(reference + "\n")
@@ -100,17 +97,10 @@ class MTEQA(Model):
 
             # Format validation
             header = lines[0].strip().split("\t")
-            if (
-                header[2] != "F1"
-                or header[3] != "EM"
-                or header[4] != "chrf"
-                or header[5] != "bleu"
-            ):
+            if header[2] != "F1" or header[3] != "EM" or header[4] != "chrf" or header[5] != "bleu":
                 raise Exception(f"Unexpected header format: {header}")
             if len(lines) - 1 != len(indices):
-                raise Exception(
-                    f"Incorrect number of output scores. Expected {len(indices)}, found {len(lines) - 1}"
-                )
+                raise Exception(f"Incorrect number of output scores. Expected {len(indices)}, found {len(lines) - 1}")
 
             # Group by input candidate index
             index_to_metrics = defaultdict(list)

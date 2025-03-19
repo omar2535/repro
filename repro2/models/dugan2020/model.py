@@ -1,7 +1,7 @@
 import json
 import logging
 import os
-from typing import Dict, List
+from typing import Dict, List, Any
 
 from overrides import overrides
 
@@ -34,10 +34,8 @@ class RoFTRecipeGenerator(RecipeGenerationModel):
         self.random_seed = random_seed
 
     @overrides
-    def predict_batch(self, inputs: List[Dict[str, str]], *args, **kwargs) -> List[str]:
-        logger.info(
-            f"Generating recipes for {len(inputs)} inputs and Docker image {self.image}"
-        )
+    def predict_batch(self, inputs: List[Dict[str, Any]], *args, **kwargs) -> List[str]:
+        logger.info(f"Generating recipes for {len(inputs)} inputs and Docker image {self.image}")
 
         with TemporaryDirectory() as temp:
             host_input_dir = f"{temp}/input"
@@ -53,12 +51,7 @@ class RoFTRecipeGenerator(RecipeGenerationModel):
             os.makedirs(host_input_dir)
             with open(host_input_file, "w") as out:
                 for inp in inputs:
-                    out.write(
-                        json.dumps(
-                            {"name": inp["name"], "ingredients": inp["ingredients"]}
-                        )
-                        + "\n"
-                    )
+                    out.write(json.dumps({"name": inp["name"], "ingredients": inp["ingredients"]}) + "\n")
 
             # Run inference. The output_dir must exist before running
             # the docker command

@@ -24,14 +24,13 @@ class FEQA(Model):
         sources: List[TextType],
         **kwargs,
     ) -> MetricsType:
-        return self.predict_batch(
-            [{"candidate": candidate, "sources": sources}], **kwargs
-        )[0]
+        return self.predict_batch([{"candidate": candidate, "sources": sources}], **kwargs)[0]
 
     def predict_batch(
         self,
         inputs: List[Dict[str, Union[TextType, List[TextType]]]],
         batch_size: int = 16,
+        *args,
         **kwargs,
     ) -> Tuple[MetricsType, List[MetricsType]]:
         logger.info(f"Calculating FEQA for {len(inputs)} inputs")

@@ -33,16 +33,13 @@ class _Kryscinski2019Model(Model):
         self.device = device
         self.batch_size = batch_size
 
-    def predict(
-        self, candidate: TextType, sources: List[TextType], **kwargs
-    ) -> MetricsType:
-        return self.predict_batch(
-            [{"candidate": candidate, "sources": sources}], **kwargs
-        )[0]
+    def predict(self, candidate: TextType, sources: List[TextType], **kwargs) -> MetricsType:
+        return self.predict_batch([{"candidate": candidate, "sources": sources}], **kwargs)[0]
 
     def predict_batch(
         self,
         inputs: List[Dict[str, Union[TextType, List[TextType]]]],
+        *args,
         **kwargs,
     ) -> Tuple[MetricsType, List[MetricsType]]:
         logger.info(f"Calculating {self.name} for {len(inputs)} inputs with model")

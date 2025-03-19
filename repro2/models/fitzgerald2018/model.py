@@ -19,7 +19,7 @@ class QASRLParser(Model):
     def predict(self, sentence: str, **kwargs) -> Dict:
         return self.predict_batch([{"sentence": sentence}], **kwargs)[0]
 
-    def predict_batch(self, inputs: List[Dict[str, str]], **kwargs) -> List[Dict]:
+    def predict_batch(self, inputs: List[Dict[str, str]], *args, **kwargs) -> List[Dict]:
         logger.info(f"Parsing {len(inputs)} inputs with image {self.image}")
 
         sentences = [inp["sentence"] for inp in inputs]

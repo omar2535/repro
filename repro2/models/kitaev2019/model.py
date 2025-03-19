@@ -12,9 +12,7 @@ logger = logging.getLogger(__name__)
 
 @Model.register(f"{MODEL_NAME}-benepar")
 class Benepar(Model):
-    def __init__(
-        self, image: str = DEFAULT_IMAGE, model: str = "benepar_en3", device: int = 0
-    ):
+    def __init__(self, image: str = DEFAULT_IMAGE, model: str = "benepar_en3", device: int = 0):
         self.image = image
         self.model = model
         self.device = device
@@ -25,7 +23,7 @@ class Benepar(Model):
             **kwargs,
         )[0]
 
-    def predict_batch(self, inputs: List[Dict[str, str]], **kwargs) -> List[List[str]]:
+    def predict_batch(self, inputs: List[Dict[str, str]], *args, **kwargs) -> List[List[str]]:
         logger.info(f"Parsing {len(inputs)} inputs with model {self.model}")
 
         with DockerContainer(self.image) as backend:

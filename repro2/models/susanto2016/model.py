@@ -3,6 +3,7 @@ import os
 from overrides import overrides
 from typing import Dict, List
 
+from repro2.data.types import DocumentType
 from repro2.common import TemporaryDirectory
 from repro2.common.docker import make_volume_map, run_command
 from repro2.common.io import write_to_text_file
@@ -45,7 +46,7 @@ class RNNTruecaser(TruecasingModel):
         self.device = device
 
     @overrides
-    def predict_batch(self, inputs: List[Dict[str, str]], *args, **kwargs) -> List[str]:
+    def predict_batch(self, inputs: List[Dict[str, DocumentType]], *args, **kwargs) -> List[str]:
         input_texts = [inp["text"] for inp in inputs]
         logger.info(f"Running truecasing on {len(inputs)} using image {self.image}")
 

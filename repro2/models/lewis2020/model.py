@@ -58,12 +58,10 @@ class BART(SingleDocumentSummarizationModel):
 
     @overrides
     def predict_batch(
-        self, inputs: List[Dict[str, DocumentType]], *args, **kwargs
-    ) -> Union[List[SummaryType], List[List[SummaryType]]]:
+        self, inputs: list[Dict[str, DocumentType]], *args, **kwargs
+    ) -> list[SummaryType] | list[list[SummaryType]]:
         documents = [inp["document"] for inp in inputs]
-        logger.info(
-            f"Predicting summaries for {len(documents)} documents with Docker image {self.image}"
-        )
+        logger.info(f"Predicting summaries for {len(documents)} documents with Docker image {self.image}")
 
         with TemporaryDirectory() as temp:
             input_dir = f"{temp}/input"
