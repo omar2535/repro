@@ -6,8 +6,8 @@ from sklearn.metrics import balanced_accuracy_score, f1_score
 from tqdm import tqdm
 from typing import List, Tuple
 
-from repro.common.io import read_jsonl_file
-from repro.models.kryscinski2019 import FactCC, FactCCX
+from repro2.common.io import read_jsonl_file
+from repro2.models.kryscinski2019 import FactCC, FactCCX
 
 
 def parse_story_file(content):

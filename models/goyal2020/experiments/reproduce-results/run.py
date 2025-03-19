@@ -1,7 +1,7 @@
 import argparse
 import json
 
-from repro.models.goyal2020 import DAE
+from repro2.models.goyal2020 import DAE
 
 
 def main(args):

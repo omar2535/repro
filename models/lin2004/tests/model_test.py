@@ -1,9 +1,9 @@
 import json
 import unittest
 
-from repro.models.lin2004 import ROUGE
-from repro.testing import FIXTURES_ROOT as REPRO_FIXTURES_ROOT
-from repro.testing import assert_dicts_approx_equal
+from repro2.models.lin2004 import ROUGE
+from repro2.testing import FIXTURES_ROOT as REPRO_FIXTURES_ROOT
+from repro2.testing import assert_dicts_approx_equal
 
 from . import FIXTURES_ROOT
 

@@ -1,8 +1,8 @@
 import unittest
 from typing import List
 
-from repro.commands.predict import predict_with_model
-from repro.models import Model
+from repro2.commands.predict import predict_with_model
+from repro2.models import Model
 
 
 @Model.register("test-model", exist_ok=True)

@@ -1,7 +1,7 @@
 import json
 import unittest
 
-from repro.models.sacrerouge import SRROUGE
+from repro2.models.sacrerouge import SRROUGE
 
 from . import FIXTURES_ROOT
 

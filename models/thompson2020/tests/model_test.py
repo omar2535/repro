@@ -1,8 +1,8 @@
 import unittest
 from parameterized import parameterized
 
-from repro.models.thompson2020 import Prism, PrismSrc
-from repro.testing import assert_dicts_approx_equal, get_testing_device_parameters
+from repro2.models.thompson2020 import Prism, PrismSrc
+from repro2.testing import assert_dicts_approx_equal, get_testing_device_parameters
 
 
 class TestThompson202Models(unittest.TestCase):

@@ -1,8 +1,8 @@
 import unittest
 from parameterized import parameterized
 
-from repro.models.krubinski2021 import MTEQA
-from repro.testing import assert_dicts_approx_equal, get_testing_device_parameters
+from repro2.models.krubinski2021 import MTEQA
+from repro2.testing import assert_dicts_approx_equal, get_testing_device_parameters
 
 
 class TestKrubinski2021Models(unittest.TestCase):

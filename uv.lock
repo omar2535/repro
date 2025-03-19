@@ -586,7 +586,7 @@ wheels = [
 [[package]]
 name = "repro2"
 version = "0.0.1"
-source = { virtual = "." }
+source = { editable = "." }
 dependencies = [
     { name = "datasets" },
     { name = "docker" },

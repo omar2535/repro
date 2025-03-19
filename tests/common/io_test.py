@@ -1,7 +1,7 @@
 import unittest
 
-from repro.common.io import read_jsonl_file, write_to_jsonl_file, write_to_text_file
-from repro.common import TemporaryDirectory
+from repro2.common.io import read_jsonl_file, write_to_jsonl_file, write_to_text_file
+from repro2.common import TemporaryDirectory
 
 
 class TestIO(unittest.TestCase):

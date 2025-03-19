@@ -1,9 +1,9 @@
 import unittest
 
-from repro.commands import util
-from repro.data.dataset_readers import DatasetReader
-from repro.data.output_writers import OutputWriter
-from repro.models import Model
+from repro2.commands import util
+from repro2.data.dataset_readers import DatasetReader
+from repro2.data.output_writers import OutputWriter
+from repro2.models import Model
 
 
 class TestUtil(unittest.TestCase):

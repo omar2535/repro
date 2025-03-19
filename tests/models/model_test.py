@@ -3,9 +3,9 @@ import pytest
 import unittest
 from typing import List
 
-from repro.models import Model, ParallelModel
-from repro.models.zhang2020 import BERTScore
-from repro.testing import (
+from repro2.models import Model, ParallelModel
+from repro2.models.zhang2020 import BERTScore
+from repro2.testing import (
     FIXTURES_ROOT,
     assert_dicts_approx_equal,
     get_testing_device_parameters,

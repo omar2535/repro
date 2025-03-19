@@ -2,9 +2,9 @@ import json
 import unittest
 from parameterized import parameterized
 
-from repro.models.goyal2020 import DAE
-from repro.testing import FIXTURES_ROOT as REPRO_FIXTURES_ROOT
-from repro.testing import assert_dicts_approx_equal, get_testing_device_parameters
+from repro2.models.goyal2020 import DAE
+from repro2.testing import FIXTURES_ROOT as REPRO_FIXTURES_ROOT
+from repro2.testing import assert_dicts_approx_equal, get_testing_device_parameters
 
 from . import FIXTURES_ROOT
 

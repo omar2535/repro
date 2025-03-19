@@ -2,8 +2,8 @@ import pytest
 import unittest
 from parameterized import parameterized
 
-from repro.models.durmus2020 import FEQA
-from repro.testing import get_testing_device_parameters
+from repro2.models.durmus2020 import FEQA
+from repro2.testing import get_testing_device_parameters
 
 
 class TestDurmus2020Models(unittest.TestCase):

@@ -1,8 +1,8 @@
 import unittest
 
-import repro
+import repro2
 
 
 class TestVersion(unittest.TestCase):
     def test_version_exists(self):
-        assert repro.__version__
+        assert repro2.VERSION

@@ -2,8 +2,8 @@ import json
 import unittest
 from parameterized import parameterized
 
-from repro.models.dou2021 import OracleSentenceGSumModel, SentenceGSumModel
-from repro.testing import get_testing_device_parameters
+from repro2.models.dou2021 import OracleSentenceGSumModel, SentenceGSumModel
+from repro2.testing import get_testing_device_parameters
 
 from . import FIXTURES_ROOT
 from ..src.commands import get_oracle_sentences, generate_summaries, sentence_split

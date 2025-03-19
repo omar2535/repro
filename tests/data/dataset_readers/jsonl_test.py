@@ -1,8 +1,8 @@
 import json
 import unittest
 
-from repro.common import TemporaryDirectory
-from repro.data.dataset_readers import JSONLinesDatasetReader
+from repro2.common import TemporaryDirectory
+from repro2.data.dataset_readers import JSONLinesDatasetReader
 
 
 class TestJSONLinesDatasetReader(unittest.TestCase):

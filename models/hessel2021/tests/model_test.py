@@ -2,8 +2,8 @@ import json
 import unittest
 from parameterized import parameterized
 
-from repro.models.hessel2021 import CLIPScore
-from repro.testing import assert_dicts_approx_equal, get_testing_device_parameters
+from repro2.models.hessel2021 import CLIPScore
+from repro2.testing import assert_dicts_approx_equal, get_testing_device_parameters
 
 from . import FIXTURES_ROOT
 

@@ -2,8 +2,8 @@ import json
 import unittest
 from parameterized import parameterized
 
-from repro.models.gupta2020 import NeuralModuleNetwork
-from repro.testing import get_testing_device_parameters
+from repro2.models.gupta2020 import NeuralModuleNetwork
+from repro2.testing import get_testing_device_parameters
 
 from . import FIXTURES_ROOT
 

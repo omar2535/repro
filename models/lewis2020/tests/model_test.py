@@ -3,8 +3,8 @@ import unittest
 
 from parameterized import parameterized
 
-from repro.models.lewis2020 import BART
-from repro.testing import get_testing_device_parameters
+from repro2.models.lewis2020 import BART
+from repro2.testing import get_testing_device_parameters
 
 from . import FIXTURES_ROOT
 

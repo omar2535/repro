@@ -1,8 +1,8 @@
 import unittest
 from parameterized import parameterized
 
-from repro.models.fitzgerald2018 import QASRLParser
-from repro.testing import get_testing_device_parameters
+from repro2.models.fitzgerald2018 import QASRLParser
+from repro2.testing import get_testing_device_parameters
 
 
 class TestFitzGerald2018Models(unittest.TestCase):

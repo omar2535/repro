@@ -2,8 +2,8 @@ import json
 import unittest
 from parameterized import parameterized
 
-from repro.models.colombo2021 import BaryScore, DepthScore, InfoLM
-from repro.testing import assert_dicts_approx_equal, get_testing_device_parameters
+from repro2.models.colombo2021 import BaryScore, DepthScore, InfoLM
+from repro2.testing import assert_dicts_approx_equal, get_testing_device_parameters
 
 from . import FIXTURES_ROOT
 

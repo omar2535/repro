@@ -1,8 +1,8 @@
 import unittest
 from parameterized import parameterized
 
-from repro.models.kitaev2019 import Benepar
-from repro.testing import get_testing_device_parameters
+from repro2.models.kitaev2019 import Benepar
+from repro2.testing import get_testing_device_parameters
 
 
 class TestKitaev2019(unittest.TestCase):

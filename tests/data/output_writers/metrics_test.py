@@ -1,8 +1,8 @@
 import json
 import unittest
 
-from repro.data.output_writers import MetricsOutputWriter
-from repro.common import TemporaryDirectory
+from repro2.data.output_writers import MetricsOutputWriter
+from repro2.common import TemporaryDirectory
 
 
 class TestMetricsOutputWriter(unittest.TestCase):

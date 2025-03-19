@@ -1,8 +1,8 @@
 import json
 import unittest
 
-from repro.common import TemporaryDirectory, docker
-from repro.testing import FIXTURES_ROOT, DockerTestContextManager
+from repro2.common import TemporaryDirectory, docker
+from repro2.testing import FIXTURES_ROOT, DockerTestContextManager
 
 
 class TestDocker(unittest.TestCase):

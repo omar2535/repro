@@ -1,8 +1,8 @@
 import unittest
 
-from repro.data.output_writers import DefaultOutputWriter
-from repro.common import TemporaryDirectory
-from repro.common.io import read_jsonl_file
+from repro2.data.output_writers import DefaultOutputWriter
+from repro2.common import TemporaryDirectory
+from repro2.common.io import read_jsonl_file
 
 
 class TestDefaultOutputWriter(unittest.TestCase):

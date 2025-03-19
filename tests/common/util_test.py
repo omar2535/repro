@@ -1,7 +1,7 @@
 import unittest
 
-from repro.common import util
-from repro.testing import assert_dicts_approx_equal
+from repro2.common import util
+from repro2.testing import assert_dicts_approx_equal
 
 
 class TestUtil(unittest.TestCase):
