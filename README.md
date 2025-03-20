@@ -1,7 +1,7 @@
 # Repro2 - an up to date version of the original repro
 
-![Master](https://github.com/danieldeutsch/repro/workflows/Master/badge.svg?branch=master&event=push)
 ![Documentation](https://readthedocs.org/projects/repro/badge/?version=latest)
+<a href="https://pypi.org/project/repro2/"><img src="https://img.shields.io/pypi/v/repro2?style=flat&logo=pypi"/></a>
 
 Repro is a library for reproducing results from research papers, originally introduced by Daniel Deutsch. This version 2 of the library is an up to date version of the original repo.
 For now, it is focused on making predictions with pre-trained models as easy as possible.
