@@ -1,9 +1,9 @@
 [project]
 name = "repro2"
-version = "0.0.3"
+version = "0.0.5"
 description = "An open-source library for reproducing results from research papers"
 readme = "README.md"
-requires-python = ">=3.13"
+requires-python = ">=3.12"
 dependencies = [
     "datasets>=3.4.1",
     "docker>=7.1.0",
